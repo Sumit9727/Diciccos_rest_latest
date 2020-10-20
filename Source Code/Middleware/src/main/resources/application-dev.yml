@@ -1,0 +1,81 @@
+server :
+       port : 9090
+elastic :
+      search :
+         location : 138.68.63.30:9200      
+spring :
+      datasource :
+           url : jdbc:postgresql://localhost:5432/diciccos
+           username : postgres
+           password : root
+           platform : postgres
+      jpa :
+           properties :
+                hibernate : 
+                         dialect : org.hibernate.dialect.PostgreSQLDialect
+           database : POSTGRESQL
+           generate-ddl : true
+           hibernate :
+                   ddl-auto : update
+                   naming : 
+                          physical-strategy : org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+      security:
+       oauth2:
+         client:
+          registration:
+            google:
+              clientId: 848367434057-8ih9luh1h1ff1ql2lcogoqg4nccjvc0q.apps.googleusercontent.com
+              clientSecret: YEqZ3RD3GWipFs0ZZ-XlQhLM
+              redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+              scope:
+                - email
+                - profile
+            facebook:
+              clientId:  659767761618653
+              clientSecret: 0cd990f309c1bf4a01630ca687282bdb
+              redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+              scope:
+                - email
+                - public_profile
+          provider:
+            facebook:
+              authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+              tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+              userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+
+            google:
+              authorizationUri: https://accounts.google.com/o/oauth2/auth
+              tokenUri: https://oauth2.googleapis.com/token
+              userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 7200000
+    refreshTokenExpirationMsec: 86400000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - https://localhost:9090/token
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
+      
+user:
+    name : test
+    authProvider : local
+    password : test
+    emailId: test@prakat.in
+    role : ROLE_USER
+    imageUrl : test.jpeg
+    
+admin:
+    name : admin
+    authProvider : local
+    password : admin
+    emailId: admin@prakat.in
+    role : ROLE_ADMIN
+    imageUrl : admin.jpeg
